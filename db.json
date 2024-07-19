@@ -1,0 +1,22 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "email": "ammar@admin.com",
+            "password": "admin",
+            "user_type": "admin"
+          },
+          {
+            "id": 2,
+            "email": "ammar.waheed@teacher.com",
+            "password": "teacher",
+            "user_type": "teacher"
+          },
+          {
+            "id": 3,
+            "email": "mariam.james@hotmail.com",
+            "password": "student",
+            "user_type": "student"
+          }
+    ]
+}

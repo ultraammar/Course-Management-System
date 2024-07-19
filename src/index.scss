@@ -1,0 +1,29 @@
+$font-stack: Helvetica, sans-serif;
+$primary-color: #80cfa9;
+$secondary-color: #4c6663;
+$twilightBlack: #1a1a1a;
+$twilightWhite: #f8f3f3;
+$max-width-desktop: 1000px;
+
+@mixin theme($theme: rgb(248, 243, 243)) {
+  background: $twilightWhite;
+  color: $twilightBlack;
+}
+
+@mixin desktopSizing() {
+  max-width: $max-width-desktop;
+}
+
+body {
+  font: 100% $font-stack;
+  @include theme;
+  margin: 0;
+  box-sizing: border-box;
+  background-image: url('./assets/blurry-gradient-haikei.svg');
+  background-size:cover;
+  background-repeat: no-repeat;
+  
+  
+
+  
+}
