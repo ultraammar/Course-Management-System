@@ -25,7 +25,7 @@ const LoginForm = () => {
 
   const onFinish = async (values) => {
     console.log("Success:", values);
-    const response = await fetch("http://localhost:3000/users", {
+    const response = await fetch("https://course-management-system-json-server-data.onrender.com/users", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -114,7 +114,7 @@ const LoginForm = () => {
         }}
       >
         <Button type="primary" htmlType="submit">
-          Submit
+          Login
         </Button>
       </Form.Item>
     </Form>
