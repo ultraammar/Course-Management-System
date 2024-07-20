@@ -48,7 +48,6 @@ const Navbar = () => {
         style={{
           color: "white",
           fontSize: "1.5rem",
-          
           justifyContent: session.isLoggedIn?"center":"right",
           display: "flex",
         }}

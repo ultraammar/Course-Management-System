@@ -29,14 +29,15 @@ const TeacherCoursesList = () => {
     try {
       const response = await axios.get("http://localhost:3000/courses");
       const coursesData = response.data;
+      console.log(coursesData);
       const updatedData = await Promise.all(
         coursesData.map(async (item) => {
           const response = await axios.get(
-            `http://localhost:3000/users/${item.teacher_id}`
+            `http://localhost:3000/authors/${item.author_id}`
           );
           return {
             ...item,
-            assignedTeacher: response.data.email,
+            assignedTeacher: response.data.name,
           };
         })
       );
@@ -52,19 +53,20 @@ const TeacherCoursesList = () => {
 
   //table columns
   const columns = [
-    { title: "id", dataIndex: "id", key: "id", width: 50 },
+    { title: "id", dataIndex: "id", key: "id", width: 70 },
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: "Title",
+      dataIndex: "title",
+      key: "title",
+      width: 200
     },
     {
-      title: "students",
-      dataIndex: "students",
-      key: "students",
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
     },
     {
-      title: "Assigned Teacher",
+      title: "Author",
       dataIndex: "assignedTeacher",
       key: "assignedTeacher",
     },
@@ -95,17 +97,23 @@ const TeacherCoursesList = () => {
       }}
     >
       <Flex gap="small" wrap justify="right">
-          <Button type="primary" shape="round" icon={<PlusSquareTwoTone />} size={"large"}>
-            <Link to={`/manage-courses/new`}>Add Course</Link>
+        <Link to={`/teachers/manage-courses/new`}>
+          <Button
+            type="primary"
+            shape="round"
+            icon={<PlusSquareTwoTone />}
+            size={"large"}
+          >
+            Add Course
           </Button>
-          
-        </Flex>
+        </Link>
+      </Flex>
       <Layout
-      style={{
-        margin: "20px 0",
-        borderRadius: borderRadiusLG,
-        padding: 30,
-      }}
+        style={{
+          margin: "20px 0",
+          borderRadius: borderRadiusLG,
+          padding: 30,
+        }}
       >
         <Table
           columns={columns}

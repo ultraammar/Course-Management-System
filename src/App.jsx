@@ -14,7 +14,8 @@ import RedirectIfLoggedIn from "./components/ProtectedRoute/RedirectIfLoggedIn";
 import { useSelector } from "react-redux";
 import Navbar from "./components/Navbar/Navbar";
 import TeacherCoursesList from "./components/TeachersRole/TeacherCoursesList/TeacherCoursesList";
-import TeachersCourseUpdate from "./components/TeachersRole/TeachersCourseUpdate/TeachersCourseUpdate";
+import TeacherCoursesAdd from "./components/TeachersRole/TeacherCoursesAdd/TeacherCoursesAdd";
+import TeacherCourseUpdate from "./components/TeachersRole/TeacherCourseUpdate/TeacherCourseUpdate";
 const { Sider } = Layout;
 
 function getItem(label, key, icon, children) {
@@ -54,7 +55,6 @@ const App = () => {
               collapsible
               collapsed={collapsed}
               onCollapse={(value) => setCollapsed(value)}
-              
             >
               <div className="demo-logo-vertical" />
               <Sidebar />
@@ -77,10 +77,19 @@ const App = () => {
             />
 
             <Route
+              path="/teachers/manage-courses/new"
+              element={
+                <ProtectedRoute>
+                  <TeacherCoursesAdd />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
               path="/teachers/course-update/:id"
               element={
                 <ProtectedRoute>
-                  <TeachersCourseUpdate/>
+                  <TeacherCourseUpdate />
                 </ProtectedRoute>
               }
             />

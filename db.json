@@ -21,28 +21,36 @@
   ],
   "courses": [
     {
+      "title": "Math updated",
+      "description": "adsadasdasdasdasd",
+      "author_id": "2",
+      "id": "1"
+    },
+    {
+      "title": "Science",
+      "description": "Science Subject",
+      "author_id": "1",
+      "id": "2"
+    },
+    {
+      "title": "English",
+      "description": "English Subject",
+      "author_id": "2",
+      "id": "3"
+    }
+  ],
+  "authors": [
+    {
       "id": "1",
-      "name": "Math",
-      "teacher_id": "2",
-      "students": [
-        3
-      ]
+      "name": "AmmarTheAuthor"
     },
     {
       "id": "2",
-      "name": "Science",
-      "teacher_id": "2",
-      "students": [
-        3
-      ]
+      "name": "AhmedTheAuthor"
     },
     {
       "id": "3",
-      "name": "English",
-      "teacher_id": "2",
-      "students": [
-        3
-      ]
+      "name": "AbdullahTheAuthor"
     }
   ]
 }

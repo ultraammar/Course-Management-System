@@ -1,17 +1,20 @@
-import { Button, Form, Input, Layout, Select, Space, theme } from "antd";
-import { Content } from "antd/es/layout/layout";
-import { useFormik } from "formik";
-import { useParams } from "react-router-dom";
-import * as Yup from "yup";
 import React, { useEffect, useState } from "react";
+import "./TeacherCourseUpdate.scss";
+import { Content } from "antd/es/layout/layout";
+import { Button, Form, Input, Layout, Select, theme } from "antd";
 import axios from "axios";
+import * as Yup from "yup";
+import { useFormik } from "formik";
+import { useNavigate, useParams } from "react-router-dom";
 
+const TeacherCourseUpdate = () => {
 
-
-
-
-const TeacherCoursesAdd = () => {
   const [authorOptions, setAuthorOptions] = useState([]);
+  const [courseData, setCourseData] = useState({});
+  const navigate = useNavigate();
+  const { id: updateId } = useParams();
+
+  
 
   useEffect(()=>{
     const fetchData = async () => {
@@ -28,11 +31,28 @@ const TeacherCoursesAdd = () => {
           delete author.name;
         });
         setAuthorOptions(authorsData);
-        
+
+        //fetch course data using the updateId
+        const responseCourse = await axios.get(`http://localhost:3000/courses/${updateId}`);
+        setCourseData(responseCourse.data);
+        console.log(responseCourse.data);
+        form.setFieldsValue({
+          author_id: responseCourse.data.author_id, // Ensure this matches the name and value expected by the Ant Design form
+          title: responseCourse.data.title,
+          description: responseCourse.data.description,
+        });
+        formik.setValues({
+          title: responseCourse.data.title,
+          description: responseCourse.data.description,
+          author_id: responseCourse.data.author_id, // Ensure this matches the name and value expected by the Ant Design form
+        });
+        console.log(formik.values)  
         
       } catch (error) {
         console.error("Error fetching data:", error);
       }
+
+      
     };
     fetchData(); // Ensure data is fetched first
   },[]);
@@ -65,7 +85,7 @@ const TeacherCoursesAdd = () => {
   let validationSchema = Yup.object({
     title: Yup.string().required("Needs a title").min(2, "Too Short!"),
     description: Yup.string().required("At least say something").min(10, "Too Short!"),
-    author: Yup.number().required("You must select an author.").min(1, "Too Short!"),
+    author_id: Yup.number().required("You must select an author.").min(1, "Too Short!"),
     // streetAddress: Yup.string().min(5, "Too Short!").required("Required"),
     // workStatus: Yup.string().notOneOf(["unselected"], "Please select a value"),
   });
@@ -76,8 +96,7 @@ const TeacherCoursesAdd = () => {
     },
   };
   
-  
-
+ 
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -86,26 +105,32 @@ const TeacherCoursesAdd = () => {
     },
     onSubmit: (values) => {
       console.log("onsubmit ran");
-      formik.resetForm();
-      form.resetFields(); 
-
+      // formik.resetForm();
+      // form.resetFields(); 
+      
       //push to db.json
-      axios.post("http://localhost:3000/courses", values).then(() => {
-        console.log("Course added");  
+      axios.put(`http://localhost:3000/courses/${updateId}`, values).then(() => {
+        console.log("Course updated");  
+        
+        navigate('/teachers/manage-courses');
       });
     },
     // validationSchema: validationSchema,
   });
 
-//checking formik values
-useEffect(() => {
-  console.log(formik.values);
-}, [formik.values]);
-    
+     //useEffect console log formik values
+  useEffect(()=>{
+    console.log(formik.values);
+    console.log(authorOptions);
+  }
+  ,[formik.values]);
+  
+
 
   return (
     <>
-      <Content
+    
+    <Content
         style={{
           padding: 24,
           margin: "16px",
@@ -114,6 +139,7 @@ useEffect(() => {
           borderRadius: borderRadiusLG,
         }}
       >
+        {courseData &&
         <Form
           form={form}
         onFinish={formik.handleSubmit}
@@ -132,6 +158,7 @@ useEffect(() => {
               id="title"
               name="title"
               type="text"
+              
               onChange={formik.handleChange}
               value={formik.values.title}
             />
@@ -144,13 +171,13 @@ useEffect(() => {
               id="description"
               name="description"
               type="text"
-              onChange={formik.handleChange}
+              onChange={formik.handleChange}  
               value={formik.values.description} 
             />
 
             </Form.Item>
 
-            <Form.Item label="Author" name="author" 
+            <Form.Item label="Author" name="author_id" 
             rules={[yupSync]}
             
             >
@@ -171,13 +198,15 @@ useEffect(() => {
             }}
           >
             <Button type="primary" htmlType="submit" block size="large">
-              Submit
+              Update
             </Button>
           </Form.Item>
         </Form>
+        }
       </Content>
+        
     </>
   );
 };
 
-export default TeacherCoursesAdd;
+export default TeacherCourseUpdate;
