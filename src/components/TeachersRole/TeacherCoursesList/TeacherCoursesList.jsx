@@ -18,7 +18,7 @@ const TeacherCoursesList = () => {
   };
 
   const handleDelete = (id) => {
-    axios.delete(`http://localhost:3000/courses/${id}`).then(() => {
+    axios.delete(`/courses/${id}`).then(() => {
       fetchData();
     });
   };
@@ -27,13 +27,13 @@ const TeacherCoursesList = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/courses");
+      const response = await axios.get("/courses");
       const coursesData = response.data;
       console.log(coursesData);
       const updatedData = await Promise.all(
         coursesData.map(async (item) => {
           const response = await axios.get(
-            `http://localhost:3000/authors/${item.author_id}`
+            `/authors/${item.author_id}`
           );
           return {
             ...item,

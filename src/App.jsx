@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+// import api from './api';
 import { Layout, theme } from "antd";
 import Sidebar from "./components/Sidebar/Sidebar";
 import {
@@ -17,6 +18,15 @@ import TeacherCoursesList from "./components/TeachersRole/TeacherCoursesList/Tea
 import TeacherCoursesAdd from "./components/TeachersRole/TeacherCoursesAdd/TeacherCoursesAdd";
 import TeacherCourseUpdate from "./components/TeachersRole/TeacherCourseUpdate/TeacherCourseUpdate";
 const { Sider } = Layout;
+import axios from 'axios';
+
+
+
+// Set the base URL of the API
+axios.defaults.baseURL = 'https://course-management-system-json-server-data.onrender.com'; 
+
+
+
 
 function getItem(label, key, icon, children) {
   return {

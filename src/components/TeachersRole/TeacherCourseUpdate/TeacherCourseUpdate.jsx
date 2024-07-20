@@ -19,7 +19,7 @@ const TeacherCourseUpdate = () => {
   useEffect(()=>{
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/authors");
+        const response = await axios.get("/authors");
         const authorsData = response.data;
         console.log(authorsData);
 
@@ -33,7 +33,7 @@ const TeacherCourseUpdate = () => {
         setAuthorOptions(authorsData);
 
         //fetch course data using the updateId
-        const responseCourse = await axios.get(`http://localhost:3000/courses/${updateId}`);
+        const responseCourse = await axios.get(`/courses/${updateId}`);
         setCourseData(responseCourse.data);
         console.log(responseCourse.data);
         form.setFieldsValue({
@@ -109,7 +109,7 @@ const TeacherCourseUpdate = () => {
       // form.resetFields(); 
       
       //push to db.json
-      axios.put(`http://localhost:3000/courses/${updateId}`, values).then(() => {
+      axios.put(`courses/${updateId}`, values).then(() => {
         console.log("Course updated");  
         
         navigate('/teachers/manage-courses');
