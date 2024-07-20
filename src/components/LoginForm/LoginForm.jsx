@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Checkbox, Form, Input } from "antd";
 import "./LoginForm.scss";
 import { useNavigate } from "react-router-dom";
@@ -18,39 +18,56 @@ import { setSession } from "../../features/login/isLoggedIn/sessionSlice";
 //   },
 // ];
 const LoginForm = () => {
+
   const dispatch = useDispatch();
   //use the useSelector hook to get the value of isLoggedIn redux state
+  const {isLoggedIn, userType} = useSelector((state) => state.session); 
 
   const navigate = useNavigate();
 
   const onFinish = async (values) => {
     console.log("Success:", values);
-    const response = await fetch("https://course-management-system-json-server-data.onrender.com/users", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      "https://course-management-system-json-server-data.onrender.com/users",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const loginCredentials = await response.json();
     const matchedCredentials = loginCredentials.find(
-      (cred) =>
-        cred.email === values.email &&
-        cred.password === values.password 
+      (cred) => cred.email === values.email && cred.password === values.password
     );
 
-      console.log("Matched credentials:", matchedCredentials);
-      if (matchedCredentials) {
-        // set the boolean in redux state
-        dispatch(setSession({ userType: matchedCredentials.user_type, isLoggedIn: true, email: matchedCredentials.email}));
-
-        
-
-        // useNavigate to route to home page
-        navigate("/");
-      } else {
-        console.log("Invalid credentials");
+    console.log("Matched credentials:", matchedCredentials);
+    if (matchedCredentials) {
+      // set the boolean in redux state
+      dispatch(
+        setSession({
+          userType: matchedCredentials.user_type,
+          isLoggedIn: true,
+          email: matchedCredentials.email,
+        })
+      );
+      console.log(matchedCredentials.user_type);
+      if (matchedCredentials.user_type === "teacher") {
+        navigate("/teachers/manage-courses");
+      } else if (matchedCredentials.user_type === "admin") {
+        navigate("/admins/");
       }
+    
+  
+      
+      
+    } else {
+      console.log("Invalid credentials");
+    }
   };
+
+  // useNavigate to route to user views
+  
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -68,7 +85,7 @@ const LoginForm = () => {
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
       autoComplete="off"
-      className="login-form"
+      className="login-form" 
     >
       <Form.Item
         label="Email"

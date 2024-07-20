@@ -1,21 +1,21 @@
 import React, { useState } from "react";
-import {
-  DesktopOutlined,
-  FileOutlined,
-  PieChartOutlined,
-  TeamOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
-import { Breadcrumb, Layout, Menu, theme } from "antd";
+import { Layout, theme } from "antd";
 import Sidebar from "./components/Sidebar/Sidebar";
-import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
-import Home from "./Pages/Home/Home";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
 import Login from "./Pages/Login/Login";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import RedirectIfLoggedIn from "./components/ProtectedRoute/RedirectIfLoggedIn";
 import { useSelector } from "react-redux";
 import Navbar from "./components/Navbar/Navbar";
-const { Header, Content, Footer, Sider } = Layout;
+import TeacherCoursesList from "./components/TeachersRole/TeacherCoursesList/TeacherCoursesList";
+import TeachersCourseUpdate from "./components/TeachersRole/TeachersCourseUpdate/TeachersCourseUpdate";
+const { Sider } = Layout;
 
 function getItem(label, key, icon, children) {
   return {
@@ -27,7 +27,6 @@ function getItem(label, key, icon, children) {
 }
 
 const App = () => {
-
   //get isLoggedIn state from redux
   const isLoggedIn = useSelector((state) => state.session.isLoggedIn);
 
@@ -42,7 +41,7 @@ const App = () => {
           minHeight: "100vh",
         }}
       >
-        <Navbar/>
+        <Navbar />
         <Layout
           style={{
             background: "linear-gradient(180deg, #000f2e 0%, #001f4b 100%)",
@@ -50,22 +49,38 @@ const App = () => {
             backgroundRepeat: "no-repeat",
           }}
         >
-          {isLoggedIn &&
-          <Sider
-            collapsible
-            collapsed={collapsed}
-            onCollapse={(value) => setCollapsed(value)}
-          >
-            <div className="demo-logo-vertical" />
-            <Sidebar />
-          </Sider>
-          }
+          {isLoggedIn && (
+            <Sider
+              collapsible
+              collapsed={collapsed}
+              onCollapse={(value) => setCollapsed(value)}
+              
+            >
+              <div className="demo-logo-vertical" />
+              <Sidebar />
+            </Sider>
+          )}
           <Routes>
+            <Route path="/" element={<Navigate to="/teachers/" replace />} />
             <Route
-              path="/"
+              path="/teachers/"
+              element={<Navigate to="/teachers/manage-courses" replace />}
+            />
+
+            <Route
+              path="/teachers/manage-courses"
               element={
                 <ProtectedRoute>
-                  <Home />
+                  <TeacherCoursesList />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/teachers/course-update/:id"
+              element={
+                <ProtectedRoute>
+                  <TeachersCourseUpdate/>
                 </ProtectedRoute>
               }
             />

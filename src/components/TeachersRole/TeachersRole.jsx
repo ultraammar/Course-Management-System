@@ -1,8 +1,9 @@
-import { theme } from "antd";
-import { Content } from "antd/es/layout/layout";
-import React from "react";
+import { theme } from 'antd';
+import { Content } from 'antd/es/layout/layout'
+import React from 'react'
 
-const Home = () => {
+
+const TeachersRole = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -24,7 +25,7 @@ const Home = () => {
         Teacher courses table
       </div>
     </Content>
-  );
-};
+  )
+}
 
-export default Home;
+export default TeachersRole

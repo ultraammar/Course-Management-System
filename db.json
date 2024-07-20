@@ -1,22 +1,48 @@
 {
-    "users": [
-        {
-            "id": 1,
-            "email": "ammar@admin.com",
-            "password": "admin",
-            "user_type": "admin"
-          },
-          {
-            "id": 2,
-            "email": "ammar.waheed@teacher.com",
-            "password": "teacher",
-            "user_type": "teacher"
-          },
-          {
-            "id": 3,
-            "email": "mariam.james@hotmail.com",
-            "password": "student",
-            "user_type": "student"
-          }
-    ]
+  "users": [
+    {
+      "id": "1",
+      "email": "ammar@admin.com",
+      "password": "admin",
+      "user_type": "admin"
+    },
+    {
+      "id": "2",
+      "email": "ammar.waheed@teacher.com",
+      "password": "teacher",
+      "user_type": "teacher"
+    },
+    {
+      "id": "3",
+      "email": "mariam.james@hotmail.com",
+      "password": "student",
+      "user_type": "student"
+    }
+  ],
+  "courses": [
+    {
+      "id": "1",
+      "name": "Math",
+      "teacher_id": "2",
+      "students": [
+        3
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Science",
+      "teacher_id": "2",
+      "students": [
+        3
+      ]
+    },
+    {
+      "id": "3",
+      "name": "English",
+      "teacher_id": "2",
+      "students": [
+        3
+      ]
+    }
+  ]
 }

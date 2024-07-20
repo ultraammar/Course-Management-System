@@ -5,6 +5,7 @@ import { Navigate } from 'react-router-dom';
 // eslint-disable-next-line react/prop-types
 const ProtectedRoute = ({ children }) => {
   const isLoggedIn = useSelector((state) => state.session.isLoggedIn);
+  console.log("isLoggedIn", isLoggedIn);
 
   if (!isLoggedIn) {
     return <Navigate to="/login" replace />;
