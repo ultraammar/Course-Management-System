@@ -14,7 +14,7 @@ const AuthorsList = () => {
   // modal options
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  //store deleteMethod into a state
+  //store deleteMethod i  nto a state
   const [deleteMethod, setDeleteMethod] = useState(null);
 
   //handleDelete method stores a deleteMethod in the state and sets the isDeleteModalOpen to true

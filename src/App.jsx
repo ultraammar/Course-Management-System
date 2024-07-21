@@ -24,8 +24,8 @@ import AuthorAdd from "./components/AdminsRole/AuthorAdd/AuthorAdd";
 import AuthorUpdate from "./components/AdminsRole/AuthorUpdate/AuthorUpdate";
 
 // Set the base URL of the API
-// axios.defaults.baseURL = 'https://course-management-system-json-server-data.onrender.com';
-axios.defaults.baseURL = "http://localhost:3000";
+axios.defaults.baseURL = 'https://course-management-system-json-server-data.onrender.com';
+// axios.defaults.baseURL = "http://localhost:3000";
 
 function getItem(label, key, icon, children) {
   return {
