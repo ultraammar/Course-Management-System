@@ -1,11 +1,21 @@
 import React from "react";
 import "./Navbar.scss";
 import { Content, Header } from "antd/es/layout/layout";
-import { Menu } from "antd";
+import { Menu, notification } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/login/isLoggedIn/sessionSlice";
+
+ //notification popup
+ const showNotification = (user, user_type) => {
+  console.log("Logging out!", user, user_type);
+  notification.info({
+    message: 'Logging out!',
+    description: `Goodbye ${user_type}, ${user}! we hope to see you again.`,
+    placement: 'topLeft',
+  });
+};
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -14,6 +24,7 @@ const Navbar = () => {
   const session = useSelector((state) => state.session);
 
   const logoutHandle = () => {
+    showNotification(session.email, session.userType);
     Dispatch(logout());
     navigate("/login");
   };

@@ -1,5 +1,5 @@
+import { message, notification, Button, Checkbox, Form, Input } from "antd";
 import React, { useEffect, useState } from "react";
-import { Button, Checkbox, Form, Input } from "antd";
 import "./LoginForm.scss";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,6 +20,33 @@ import axios from "axios";
 // ];
 const LoginForm = () => {
 
+  //loading indicator message popup
+  const [loadingApi, loadingContextHolder] = message.useMessage();
+  const showLoading = () => {
+    loadingApi.open({
+      type: 'loading',
+      content: 'Logging in, wait..',
+      duration: 0,
+    });
+  };
+  // Dismiss manually and asynchronously
+  
+
+
+  //incorrect login error popup
+  const showMessage = () => {
+    message.error('Login failed! incorrect email or password.');
+  };
+  
+  
+  //login notification popup
+const showNotification = (user, user_type) => {
+  notification.success({
+    message: 'Successfully logged in!',
+    description: `Hello ${user_type}, ${user}! You have successfully logged in.`,
+    placement: 'topLeft',
+  });
+};
   const dispatch = useDispatch();
   //use the useSelector hook to get the value of isLoggedIn redux state
   const {isLoggedIn, userType} = useSelector((state) => state.session); 
@@ -28,6 +55,7 @@ const LoginForm = () => {
 
   const onFinish = async (values) => {
     console.log("Success:", values);
+    showLoading();  
     const response = await axios.get(
       "/users"
     );
@@ -49,6 +77,7 @@ const LoginForm = () => {
         })
       );
       console.log(matchedCredentials.user_type);
+      showNotification(matchedCredentials.email, matchedCredentials.user_type);
       if (matchedCredentials.user_type === "teacher") {
         navigate("/teachers/manage-courses");
       } else if (matchedCredentials.user_type === "admin") {
@@ -59,8 +88,11 @@ const LoginForm = () => {
       
       
     } else {
+      showMessage();
       console.log("Invalid credentials");
     }
+    // Dismiss manually and asynchronously
+    setTimeout(loadingApi.destroy, 2500);
   };
 
   // useNavigate to route to user views
@@ -74,6 +106,7 @@ const LoginForm = () => {
 
   return (
     <Form
+    
       name="basic"
       labelCol={{ span: 8 }}
       wrapperCol={{ span: 16 }}
@@ -84,6 +117,7 @@ const LoginForm = () => {
       autoComplete="off"
       className="login-form" 
     >
+      {loadingContextHolder}
       <Form.Item
         label="Email"
         name="email"
