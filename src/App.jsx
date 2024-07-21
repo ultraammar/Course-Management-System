@@ -70,7 +70,7 @@ const App = () => {
             </Sider>
           )}
           <Routes>
-            {/* <Route path="/" element={<Navigate to="/teachers/" replace />} /> */}
+            <Route path="/" element={<Navigate to="/login" replace />} />
             <Route
               path="/teachers/" exact
               element={<Navigate to="/teachers/manage-courses" replace />}
