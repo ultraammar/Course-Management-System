@@ -1,7 +1,7 @@
 import { Button, Form, Input, Layout, Select, Space, theme } from "antd";
 import { Content } from "antd/es/layout/layout";
 import { useFormik } from "formik";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -12,11 +12,12 @@ import axios from "axios";
 
 const TeacherCoursesAdd = () => {
   const [authorOptions, setAuthorOptions] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(()=>{
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/authors");
+        const response = await axios.get("/authors");
         const authorsData = response.data;
         console.log(authorsData);
 
@@ -90,8 +91,9 @@ const TeacherCoursesAdd = () => {
       form.resetFields(); 
 
       //push to db.json
-      axios.post("http://localhost:3000/courses", values).then(() => {
+      axios.post("/courses", values).then(() => {
         console.log("Course added");  
+        navigate('/teachers/manage-courses');
       });
     },
     // validationSchema: validationSchema,

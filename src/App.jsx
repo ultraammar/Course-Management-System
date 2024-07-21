@@ -18,15 +18,14 @@ import TeacherCoursesList from "./components/TeachersRole/TeacherCoursesList/Tea
 import TeacherCoursesAdd from "./components/TeachersRole/TeacherCoursesAdd/TeacherCoursesAdd";
 import TeacherCourseUpdate from "./components/TeachersRole/TeacherCourseUpdate/TeacherCourseUpdate";
 const { Sider } = Layout;
-import axios from 'axios';
-
-
+import axios from "axios";
+import AuthorsList from "./components/AdminsRole/AuthorsList/AuthorsList";
+import AuthorAdd from "./components/AdminsRole/AuthorAdd/AuthorAdd";
+import AuthorUpdate from "./components/AdminsRole/AuthorUpdate/AuthorUpdate";
 
 // Set the base URL of the API
-axios.defaults.baseURL = 'https://course-management-system-json-server-data.onrender.com'; 
-
-
-
+// axios.defaults.baseURL = 'https://course-management-system-json-server-data.onrender.com';
+axios.defaults.baseURL = "http://localhost:3000";
 
 function getItem(label, key, icon, children) {
   return {
@@ -71,14 +70,14 @@ const App = () => {
             </Sider>
           )}
           <Routes>
-            <Route path="/" element={<Navigate to="/teachers/" replace />} />
+            {/* <Route path="/" element={<Navigate to="/teachers/" replace />} /> */}
             <Route
-              path="/teachers/"
+              path="/teachers/" exact
               element={<Navigate to="/teachers/manage-courses" replace />}
             />
 
             <Route
-              path="/teachers/manage-courses"
+              path="/teachers/manage-courses" exact
               element={
                 <ProtectedRoute>
                   <TeacherCoursesList />
@@ -87,7 +86,7 @@ const App = () => {
             />
 
             <Route
-              path="/teachers/manage-courses/new"
+              path="/teachers/manage-courses/new" exact
               element={
                 <ProtectedRoute>
                   <TeacherCoursesAdd />
@@ -96,13 +95,45 @@ const App = () => {
             />
 
             <Route
-              path="/teachers/course-update/:id"
+              path="/teachers/course-update/:id" exact
               element={
                 <ProtectedRoute>
                   <TeacherCourseUpdate />
                 </ProtectedRoute>
               }
             />
+
+            <Route
+              path="/admins/" exact
+              element={<Navigate to="/admins/manage-authors" replace />}
+
+            />
+            <Route
+              path="/admins/manage-authors/" exact
+              element={
+                <ProtectedRoute>
+                  <AuthorsList />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admins/manage-authors/new"
+              element={
+                <ProtectedRoute>
+                  <AuthorAdd />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/admins/author-update/:id"
+              element={
+                <ProtectedRoute>
+                  <AuthorUpdate />
+                </ProtectedRoute>
+              }
+            />
+
             <Route
               path="/login"
               element={

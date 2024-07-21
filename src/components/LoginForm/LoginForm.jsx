@@ -4,6 +4,7 @@ import "./LoginForm.scss";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setSession } from "../../features/login/isLoggedIn/sessionSlice";
+import axios from "axios";
 
 // const loginCredentials = [
 //   {
@@ -27,16 +28,12 @@ const LoginForm = () => {
 
   const onFinish = async (values) => {
     console.log("Success:", values);
-    const response = await fetch(
-      "https://course-management-system-json-server-data.onrender.com/users",
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
+    const response = await axios.get(
+      "/users"
     );
-    const loginCredentials = await response.json();
+    // console.log(response.json());
+    const loginCredentials =  response.data;
+    console.log(loginCredentials);
     const matchedCredentials = loginCredentials.find(
       (cred) => cred.email === values.email && cred.password === values.password
     );
@@ -55,7 +52,7 @@ const LoginForm = () => {
       if (matchedCredentials.user_type === "teacher") {
         navigate("/teachers/manage-courses");
       } else if (matchedCredentials.user_type === "admin") {
-        navigate("/admins/");
+        navigate("/admins/manage-authors");
       }
     
   

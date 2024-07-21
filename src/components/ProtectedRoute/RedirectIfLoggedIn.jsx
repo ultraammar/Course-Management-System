@@ -4,10 +4,15 @@ import { Navigate } from 'react-router-dom';
 
 // eslint-disable-next-line react/prop-types
 function RedirectIfLoggedIn({ children }) {
-    const isLoggedIn = useSelector((state) => state.session.isLoggedIn);
+    const session = useSelector((state) => state.session);
   
-    if (isLoggedIn) {
-      return <Navigate to="/" replace />;
+    if (session.isLoggedIn) {
+      if(session.userType === "admin"){
+        return <Navigate to="/admins/manage-authors" replace />;
+      }
+      else if (session.userType === "teacher"){
+        return <Navigate to="/teachers/manage-courses" replace/>
+      }
     }
   
     return children;
