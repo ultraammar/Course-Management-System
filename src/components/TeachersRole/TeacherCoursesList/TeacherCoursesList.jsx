@@ -4,22 +4,28 @@ import { Button, Flex, Layout, Space, Table, theme } from "antd";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { PlusSquareTwoTone } from "@ant-design/icons";
+import GenericModal from "../../common/Modal/GenericModal";
 
 const TeacherCoursesList = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
-  const handleUpdate = (record) => {
-    localStorage.setItem("update", JSON.stringify(record));
-    // setDataToUpdate(record); //do not stringify
+  // modal options
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-    // dispatch(setDataToUpdate(record));
-  };
+//store deleteMethod into a state
+  const [deleteMethod, setDeleteMethod] = useState(null);
+  
+  
 
+  //handleDelete method stores a deleteMethod in the state and sets the isDeleteModalOpen to true
   const handleDelete = (id) => {
-    axios.delete(`/courses/${id}`).then(() => {
-      fetchData();
+    setIsDeleteModalOpen(true);
+    setDeleteMethod(() => () => {
+      axios.delete(`/courses/${id}`).then(() => {
+        fetchData();
+      });
     });
   };
 
@@ -32,9 +38,7 @@ const TeacherCoursesList = () => {
       console.log(coursesData);
       const updatedData = await Promise.all(
         coursesData.map(async (item) => {
-          const response = await axios.get(
-            `/authors/${item.author_id}`
-          );
+          const response = await axios.get(`/authors/${item.author_id}`);
           return {
             ...item,
             assignedTeacher: response.data.name,
@@ -58,7 +62,7 @@ const TeacherCoursesList = () => {
       title: "Title",
       dataIndex: "title",
       key: "title",
-      width: 200
+      width: 200,
     },
     {
       title: "Description",
@@ -121,6 +125,12 @@ const TeacherCoursesList = () => {
           rowKey={(record) => record.id}
           scroll={{ x: 1000 }}
         />
+        <GenericModal
+          isModalOpen={isDeleteModalOpen}
+          setIsModalOpen={setIsDeleteModalOpen}
+          title="Confirmation"
+          okMethod={() => deleteMethod()}
+        >Are you sure you want to delete this course?</GenericModal>
       </Layout>
     </Layout>
   );

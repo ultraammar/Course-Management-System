@@ -25,18 +25,6 @@
       "description": "adsadasdasdasdasd",
       "author_id": "1",
       "id": "1"
-    },
-    {
-      "title": "Science",
-      "description": "Science Subject",
-      "author_id": "1",
-      "id": "2"
-    },
-    {
-      "title": "English",
-      "description": "English Subject",
-      "author_id": "2",
-      "id": "3"
     }
   ],
   "authors": [
@@ -51,10 +39,6 @@
     {
       "id": "3",
       "name": "AbdullahTheAuthor"
-    },
-    {
-      "id": "5271",
-      "name": "Seeminnaz"
     }
   ]
 }
